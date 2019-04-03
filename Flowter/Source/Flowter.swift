@@ -37,7 +37,7 @@ public class Flowter<ContainerType> where ContainerType: UIViewController {
     
     @discardableResult
     public func addStep<ControllerType>(with: StepFactoryType<ControllerType>) -> FilledFlowter<ContainerType> {
-        let step = with(MakeStep<ControllerType,ContainerType>(container: flowContainer))
+        let step = with(MakeStep<ControllerType, ContainerType>(container: flowContainer))
         
         var lastStep = steps.last
         lastStep?.nextStep = step
@@ -50,6 +50,15 @@ public class Flowter<ContainerType> where ContainerType: UIViewController {
         if steps.count != 0 && step.dismissAction == nil {
             step.dismissAction = dismissAction
         }
+        
+        return FilledFlowter(basedOn: self)
+    }
+    
+    @discardableResult
+    public func insert<ControllerType>(_ with: StepFactoryType<ControllerType>, at index: Int) -> FilledFlowter<ContainerType> {
+        let step = with(MakeStep<ControllerType, ContainerType>(container: flowContainer))
+        
+        steps.insert(step, at: index)
         
         return FilledFlowter(basedOn: self)
     }
