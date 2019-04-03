@@ -55,8 +55,8 @@ public class Flowter<ContainerType> where ContainerType: UIViewController {
     }
     
     @discardableResult
-    public func insert<ControllerType>(_ with: StepFactoryType<ControllerType>, at index: Int) -> FilledFlowter<ContainerType> {
-        let step = with(MakeStep<ControllerType, ContainerType>(container: flowContainer))
+    public func insert<ControllerType>(at index: Int, stepFactory: StepFactoryType<ControllerType>) -> FilledFlowter<ContainerType> {
+        let step = stepFactory(MakeStep<ControllerType, ContainerType>(container: flowContainer))
         
         guard steps.count > index else {
             fatalError("Steps count is lower than index \(index)")
